@@ -1,0 +1,34 @@
+{
+  "exclude": [
+    "**/bin",
+    "**/bower_components",
+    "**/jspm_packages",
+    "**/node_modules",
+    "**/obj",
+    "**/platforms"
+  ],
+  "AddTask": {
+    "Type": "Function",
+    "Query": "SELECT add_user_task(@p_title, @p_description, @p_assigned_to, @p_status, @p_due_date, @p_created_by, @p_created_on)"
+  },
+  "AddUser": {
+    "Type": "Function",
+    "Query": "SELECT add_user(@p_full_name, @p_email, @p_password_hash, @p_role, @p_created_on::timestamp)"
+  },
+  "GetBooksByTitleAndStatus": {
+    "Type": "Function",
+    "Query": "SELECT * FROM get_books_by_title_and_status(@p_title, @p_status)"
+  },
+  "GetBooksByFilter": {
+    "Type": "Function",
+    "Query": "SELECT * FROM public.get_books_by_filter(@p_search_text::TEXT, @p_title::TEXT, @p_author::TEXT, @p_genre::TEXT, @p_status::TEXT, @p_sort_column::TEXT, @p_sort_order::TEXT, @p_page_index::INT, @p_page_size::INT)"
+  },
+  "AddBookToCart": {
+    "Type": "Function",
+    "Query": "SELECT add_book_to_cart(@p_user_id, @p_book_id) AS result"
+  },
+  "SchedulePickup": {
+    "Type": "Function",
+    "Query": "SELECT schedule_borrow_request(@p_user_id, @p_scheduled_on) AS result"
+  }
+}

@@ -10,16 +10,17 @@ using API.Shared.Helper;
 
 namespace API.Infrastructure.Dals
 {
-    public class TaskDal : ITaskDal
+    public class AuthDal : IAuthDal
     {
-         private readonly ITaskRepo _repo;
-        public TaskDal(ITaskRepo taskRepo)
+        private readonly IAuthRepo _repo;
+        public AuthDal(IAuthRepo authRepo)
         {
-            _repo = taskRepo;
+            _repo = authRepo;
         }
-        public async Task<UserTask> AddUserTask(UserTask userTask)
+
+        public async Task<User> AddUser(User user)
         {
-            var result = await _repo.AddUserTask(userTask);
+            var result = await _repo.AddUser(user);
             return result;
         }
     }

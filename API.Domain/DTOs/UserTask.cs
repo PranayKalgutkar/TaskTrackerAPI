@@ -11,8 +11,10 @@ namespace API.Domain.DTOs
         public string? Title { get; set; }
         public string? Description { get; set; }
         public List<UserFile>? UserFile { get; set; }
-        public int AssignedTo { get; set; }
+        public Guid AssignedTo { get; set; }
         public int Status { get; set; }
         public DateTime DueDate { get; set; }
+        public Guid CreatedBy { get; set; }
+        public DateTime CreatedOn { get; set; }
     }
 }

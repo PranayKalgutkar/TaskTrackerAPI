@@ -7,8 +7,8 @@ using API.Shared.Helper;
 
 namespace API.Domain.IDals
 {
-    public interface ITaskDal
+    public interface IAuthDal
     {
-        Task<UserTask> AddUserTask(UserTask userTask);
+        Task<User> AddUser(User user);
     }
 }

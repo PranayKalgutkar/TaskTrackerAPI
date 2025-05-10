@@ -6,8 +6,8 @@ using API.Domain.DTOs;
 
 namespace API.Domain.IRepos
 {
-    public interface ITaskRepo
+    public interface IAuthRepo
     {
-        Task<UserTask> AddUserTask(UserTask userTask);
+        Task<User> AddUser(User user);
     }
 }
