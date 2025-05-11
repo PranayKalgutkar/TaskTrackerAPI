@@ -10,5 +10,6 @@ namespace API.Domain.IDals
     public interface ITaskDal
     {
         Task<UserTask> AddUserTask(UserTask userTask);
+
     }
 }

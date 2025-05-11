@@ -1,3 +1,4 @@
+using System.Text;
 using API.Core.Filters;
 using API.Core.Middlewares;
 using API.Domain.IDals;
@@ -5,6 +6,8 @@ using API.Domain.IRepos;
 using API.Infrastructure.Dals;
 using API.Infrastructure.Repos;
 using API.Shared.Helper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,13 +20,35 @@ while (rootDirectory != null && !rootDirectory.EndsWith("API"))
 }
 
 string dbQueryJsonPath = builder.Configuration["APIDbQueryJsonPath"]!;
-
 string dbQueryFullPath = Path.Combine(rootDirectory ?? throw new InvalidOperationException("Root directory not found"), dbQueryJsonPath);
+
+var jwtSettings = builder.Configuration.GetSection("Jwt");
+var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]!);
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtSettings["Issuer"],
+        ValidAudience = jwtSettings["Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(key)
+    };
+});
 
 // Add services to the container.
 builder.Services.AddScoped<DbConnectionHelper>();
 builder.Services.AddSingleton(new QueryHelper(dbQueryFullPath));
 
+builder.Services.AddScoped<JwtTokenHelper>();
 builder.Services.AddScoped<ITaskDal, TaskDal>();
 builder.Services.AddScoped<ITaskRepo, TaskRepo>();
 builder.Services.AddScoped<IAuthDal, AuthDal>();
@@ -55,6 +80,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

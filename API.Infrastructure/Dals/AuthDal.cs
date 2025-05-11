@@ -18,10 +18,14 @@ namespace API.Infrastructure.Dals
             _repo = authRepo;
         }
 
-        public async Task<User> AddUser(User user)
+        public async Task<User?> SignUp(SignUp signUp)
         {
-            var result = await _repo.AddUser(user);
-            return result;
+            return await _repo.SignUp(signUp);
+        }
+
+        public async Task<User?> SignIn(SignIn signIn)
+        {
+            return await _repo.SignIn(signIn);
         }
     }
 }

@@ -19,26 +19,35 @@ namespace API.Infrastructure.Repos
             _conHelper = conHelper;
         }
 
-        public async Task<User> AddUser(User user)
+        public async Task<User?> SignUp(SignUp signUp)
         {
-            var query = _queryHelper.GetQuery("AddUser"); // Fetch INSERT INTO users(...) query
+            var query = _queryHelper.GetQuery("SignUp");
 
             var parameters = new
             {
-                p_full_name = user.FullName,
-                p_email = user.Email,
-                p_password_hash = user.PasswordHash,
-                p_role = user.Role,
-                p_created_on = user.CreatedOn
+                p_full_name = signUp.FullName,
+                p_email = signUp.Email,
+                p_password_hash = signUp.PasswordHash,
+                p_role = signUp.Role
             };
 
             using var connection = _conHelper.CreateConnection();
+            var signedUpUser = await connection.QuerySingleOrDefaultAsync<User>(query, parameters);
+            return signedUpUser;
+        }
+        public async Task<User?> SignIn(SignIn signIn)
+        {
+            var query = _queryHelper.GetQuery("SignIn");
+            
+            var parameters = new 
+            {
+                p_email = signIn.Email,
+                p_password_hash = signIn.PasswordHash 
+            }; 
 
-            var createdUserId = await connection.QuerySingleOrDefaultAsync<Guid>(query, parameters);
-
-            user.UserId = createdUserId;
-
-            return user;
+            using var connection = _conHelper.CreateConnection();
+            var signedInUser = await connection.QuerySingleOrDefaultAsync<User>(query, parameters);
+            return signedInUser;
         }
     }
 }

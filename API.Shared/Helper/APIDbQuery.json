@@ -11,9 +11,13 @@
     "Type": "Function",
     "Query": "SELECT add_user_task(@p_title, @p_description, @p_assigned_to, @p_status, @p_due_date, @p_created_by, @p_created_on)"
   },
-  "AddUser": {
+  "SignUp": {
     "Type": "Function",
-    "Query": "SELECT add_user(@p_full_name, @p_email, @p_password_hash, @p_role, @p_created_on::timestamp)"
+    "Query": "SELECT * FROM sign_up_user(@p_full_name, @p_email, @p_password_hash, @p_role)"
+  },
+  "SignIn": {
+    "Type": "Function",
+    "Query": "SELECT * FROM sign_in_user(@p_email, @p_password_hash)"
   },
   "GetBooksByTitleAndStatus": {
     "Type": "Function",
