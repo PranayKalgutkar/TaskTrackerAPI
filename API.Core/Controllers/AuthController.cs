@@ -20,9 +20,16 @@ namespace API.Core.Controllers
         }
         
         [HttpPost("signup")]
-        public async Task<IActionResult> SignUp([FromBody] User user)
+        public async Task<IActionResult> SignUp([FromBody] SignUp signUp)
         {
-            var result = await _dal.AddUser(user);
+            var result = await _dal.SignUp(signUp);
+            return Ok(result);
+        }
+
+        [HttpPost("signin")]
+        public async Task<IActionResult> SignIn([FromBody] SignIn signIn)
+        {
+            var result = await _dal.SignIn(signIn);
             return Ok(result);
         }
     }

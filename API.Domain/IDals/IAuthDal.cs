@@ -9,6 +9,7 @@ namespace API.Domain.IDals
 {
     public interface IAuthDal
     {
-        Task<User> AddUser(User user);
+        Task<User?> SignUp(SignUp signUp);
+        Task<User?> SignIn(SignIn signIn);
     }
 }

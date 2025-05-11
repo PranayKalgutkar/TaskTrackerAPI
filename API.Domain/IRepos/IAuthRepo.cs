@@ -8,6 +8,7 @@ namespace API.Domain.IRepos
 {
     public interface IAuthRepo
     {
-        Task<User> AddUser(User user);
+        Task<User?> SignUp(SignUp signUp);
+        Task<User?> SignIn(SignIn signIn);
     }
 }
